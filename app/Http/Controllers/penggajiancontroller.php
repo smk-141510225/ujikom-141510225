@@ -1,27 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\lembur_pegawai;
-use App\pegawai;
-use App\kategori_lembur;
 
 use Illuminate\Http\Request;
+use App\penggajian;
 
-class lembur_pegawaicontroller extends Controller
+class penggajiancontroller extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function __construct(){
-       //$this->middleware('auth');
-   }
     public function index()
     {
         //
-        $lembur_pegawai=lembur_pegawai::all();
-        return view('lembur_pegawai.index',compact('lembur_pegawai'));
+         $penggajian=penggajian::all();
+        return view('penggajian.index',compact('penggajian'));
+
     }
 
     /**
@@ -32,9 +28,9 @@ class lembur_pegawaicontroller extends Controller
     public function create()
     {
         //
-        $kategori_lembur=kategori_lembur::all();
-        $pegawai=pegawai::all();
-        return view('lembur_pegawai.create',compact('kategori_lembur','pegawai'));
+        $penggajian=penggajian::all();
+        $tunjangan_pegawai=tunjangan_pegawai::all();
+        return view('tunjangan_pegawai.create',compact('tunjangan_pegawai','penggajian'));
     }
 
     /**
@@ -46,12 +42,9 @@ class lembur_pegawaicontroller extends Controller
     public function store(Request $request)
     {
         //
-        $lembur_pegawai= new lembur_pegawai;
-        $lembur_pegawai->kode_lembur_id=$request->get('kode_lembur_id');
-        $lembur_pegawai->id_pegawai=$request->get('id_pegawai');
-        $lembur_pegawai->jumlah_jam=$request->get('jumlah_jam');
-        $lembur_pegawai->save();
-        return redirect('/lembur_pegawai');
+        $penggajian=Request::all();
+        penggajian::create($penggajian);
+        return redirect('penggajian');
     }
 
     /**
@@ -74,11 +67,6 @@ class lembur_pegawaicontroller extends Controller
     public function edit($id)
     {
         //
-        $lembur_pegawai=lembur_pegawai::find($id);
-        $pegawai=pegawai::all();
-        $kategori_lembur=kategori_lembur::all();
-        return view('lembur_pegawai.edit',compact('lembur_pegawai','pegawai','kategori_lembur'));
-
     }
 
     /**
@@ -91,10 +79,10 @@ class lembur_pegawaicontroller extends Controller
     public function update(Request $request, $id)
     {
         //
-        $lembur_pegawaiupdate=Request::all();
-        $lembur_pegawai=lembur_pegawai::find($id);
-        $lembur_pegawai->update($lembur_pegawaiupdate);
-        return redirect('lembur_pegawai');
+         $penggajianupdate=Request::all();
+          $penggajian=penggajian::find($id);
+          $penggajian->update($penggajianupdate);
+          return redirect('/penggajian');
     }
 
     /**
@@ -106,7 +94,7 @@ class lembur_pegawaicontroller extends Controller
     public function destroy($id)
     {
         //
-        lembur_pegawai::find($id)->delete();
-        return redirect('lembur_pegawai');
+         penggajian::find($id)->delete();
+        return redirect('penggajian');
     }
 }

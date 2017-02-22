@@ -7,14 +7,14 @@
             <div class="panel panel-primary">
                 <div class="panel-heading"><center>Tambah Kategori Lembur</center></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('kategori_lembur.store') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('kategori_lembur') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('kode_lembur') ? ' has-error' : '' }}">
                             <label for="kode_lembur" class="col-md-4 control-label">Kode Lembur</label>
                             <div class="col-md-6">
                                 <input id="kode_lembur" type="text" class="form-control" name="kode_lembur" value="{{ old('kode_lembur') }}" required autofocus> 
-                            </div>
+                            </div>  
                         </div>
 
                             <div class="form-group {{ $errors->has('id_jabatan') ? ' has-error' : '' }}" >

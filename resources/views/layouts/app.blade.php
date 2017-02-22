@@ -47,8 +47,8 @@
                     <ul class="nav navbar-nav">
 
                          <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                              Golongan<span class="caret"></span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Golongan</p>
+
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
@@ -57,8 +57,8 @@
                      <li><a href="{{ url('/golongan')}}">Index Golongan</a></li></ul>
 
                 <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                              Jabatan<span class="caret"></span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Jabatan</p>
+
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
@@ -68,8 +68,8 @@
 
                      
                       <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                              Pegawai<span class="caret"></span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Pegawai</p>
+
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
@@ -77,8 +77,8 @@
                      <li><a href="{{ url('/pegawai/create') }}">Tambah Pegawai</a></li>
                      <li><a href="{{ url('/pegawai')}}">Index Pegawai</a></li></ul>
                       <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                              Kategori Lembur<span class="caret"></span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Kategori Lembur</p>
+
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
@@ -87,8 +87,8 @@
                      <li><a href="{{ url('/kategori_lembur')}}">Index Kategori Lembur</a></li></ul>
 
                       <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                              Lembur Pegawai<span class="caret"></span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Lembur Pegawai</p>
+
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
@@ -97,33 +97,37 @@
                      <li><a href="{{ url('/lembur_pegawai')}}">Index Lembur Pegawai </a></li></ul>
                     
                      <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                              Tunjangan<span class="caret"></span>
-                            </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Tunjangan</p>
+
 
                             <ul class="dropdown-menu" role="menu">
                     
                      <li><a href="{{ url('/tunjangan/create') }}">Tambah tunjangan</a></li>
                      <li><a href="{{ url('/tunjangan')}}">Index tunjangan</a></li></ul>
 
-                     
+                     <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Tunjangan Pegawai</p>
 
-                     
-
-                      <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                              Tunjangan Pegawai<span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
                     
                      <li><a href="{{ url('/tunjangan_pegawai/create') }}">Tambah Tunjangan Pegawai  </a></li>
                      <li><a href="{{ url('/tunjangan_pegawai')}}">Index Tunjangan Pegawai   </a></li></ul>
+
+                  <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" <p class="text-left">Penggajian</p>
+
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                    
+                     <li><a href="{{ url('/Pengajian/create') }}">Tambah Pengajian</a></li>
+                     <li><a href="{{ url('/Penggajian')}}">Index Penggajian</a></li></ul>
+
+
   
-
-
-
-                </ul>
+                    </ul>
         
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">

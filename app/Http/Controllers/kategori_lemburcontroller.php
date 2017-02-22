@@ -15,6 +15,9 @@ class kategori_lemburcontroller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct(){
+       //$this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -46,20 +49,21 @@ class kategori_lemburcontroller extends Controller
         //
 
        $kategori_lembur=Request::all();
-         $rules=['kode_lembur'=>'required|unique:kategori_lemburs','nama_jabatan'=>'required'];
-         $message=['nama_jabatan.required'=>'Kolom Jangan Sampai Kosong','kode_lembur.unique'=>'Kode Yang Anda Masukan Sudah Ada'];
+         $rules=['kode_lembur'=>'required|unique:kategori_lemburs',
+         'id_jabatan'=>'required','id_golongan'=>'required'];
+         $message=['id_jabatan.required'=>'Kolom Jangan Sampai Kosong','id_golongan.required'=>'Kolom Jangan Sampai Kosong','kode_lembur.unique'=>'Kode Yang Anda Masukan Sudah Ada'];
          $validator=Validator::make(Input::all(),$rules,$message);
 
         if ($validator->fails())
          {
             # code...
-            return redirect('/kategori_lembur/create')
+            return redirect()->back()
             ->withErrors($validator)
             ->withInput();
         }
         else
         {
-         
+         $kategori_lembur=Request::all();
          kategori_lembur::create($kategori_lembur);
          return redirect('kategori_lembur');
         }

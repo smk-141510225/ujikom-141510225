@@ -9,7 +9,7 @@ use Input;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
+use Request;
 
 
 
@@ -22,7 +22,9 @@ class pegawaicontroller extends Controller
      * @return \Illuminate\Http\Response
      */
 
-  
+   public function __construct(){
+      // $this->middleware('auth');
+   }
 
     public function index()
     {
@@ -84,6 +86,7 @@ class pegawaicontroller extends Controller
         $pegawai->id_user =$user->id;
         $pegawai->foto = $filename;
         $pegawai->save();
+
         return redirect('/pegawai');
     }
 }
@@ -125,12 +128,10 @@ class pegawaicontroller extends Controller
     public function update(Request $request, $id)
     {
         //
-        $pegawaiupdate=Request::all();
-        $pegawai=pegawai::find($id);
-        $pegawai->update($pegawaiupdate);
-        return redirect('/pegawai');
-
-
+          $pegawaiupdate=Request::all();
+          $pegawai=pegawai::find($id);
+          $pegawai->update($pegawaiupdate);
+          return redirect('/pegawai');
     }
 
     /**
