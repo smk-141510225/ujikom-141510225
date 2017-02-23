@@ -6,6 +6,11 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
                 <div class="panel-heading"><center>Index Golongan</center></div>
+                <div class="form-group"><center>
+                <br>
+    <form action="{{url('golongan')}}/?nama_golongan=nama_golongan">
+        <input type="text" name="nama_golongan" placeholder="Search"></form>
+    </center></div>
 
                 <div class="panel-body">
                     <table class="table" border='2'>

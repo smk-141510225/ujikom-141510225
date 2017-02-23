@@ -23,7 +23,16 @@ class jabatancontroller extends Controller
     {
         //
         $jabatan=jabatan::all();
-        return view('jabatan.index',compact('jabatan'));
+       $jabatan = jabatan::where('nama_jabatan', request('nama_jabatan'))->paginate(0);
+        if(request()->has('nama_jabatan'))
+        {
+            $jabatan=jabatan::where('nama_jabatan', request('nama_jabatan'))->paginate(0);
+        }
+        else
+        {
+            $jabatan=jabatan::paginate();
+        }
+        return view ('jabatan.index', compact('jabatan'));
     }
 
     /**

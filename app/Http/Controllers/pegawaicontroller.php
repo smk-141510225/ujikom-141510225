@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\pegawai;
-use App\user;
-use App\golongan;
-use App\jabatan;
-use Input;
-use Validator;
+use Request; 
+ use Validator; 
+ use Input; 
+ use App\Golongan; 
+ use App\Jabatan; 
+ use App\Pegawai; 
+ use App\User; 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Request;
-
 
 
 class pegawaicontroller extends Controller
@@ -29,8 +29,9 @@ class pegawaicontroller extends Controller
     public function index()
     {
         //
-        $pegawai=pegawai::all();
-        return view('pegawai.index',compact('pegawai'));
+        $pegawai=Pegawai::paginate(); 
+        return view('pegawai.index',compact('pegawai')); 
+
     }
 
     /**
@@ -41,10 +42,11 @@ class pegawaicontroller extends Controller
     public function create()
     {
         //
-        $user=user::all();
-        $jabatan=jabatan::all();
-        $golongan=golongan::all();
-        return view('pegawai.create',compact('golongan','jabatan','use'));
+         $golongan=Golongan::all(); 
+          $jabatan=Jabatan::all(); 
+          $user=User::all(); 
+         return view('pegawai.create',compact('golongan','jabatan','user')); 
+
     }
 
     /**
@@ -57,39 +59,66 @@ class pegawaicontroller extends Controller
     {
         //
 
-          $this->validate($request, [
-            'name'=>'required',
-            'nip' =>'required|numeric|min:3|unique:pegawais',
-            'permission'=>'required|max:255',
-            'email'=>'required|email|max:255|unique:users',
-            'password'=>'required|min:6|confirmed',
-            ]);
+          $roles=[ 
+             'nip'=>'required|unique:pegawais', 
+             'jabatan_id'=>'required', 
+             'golongan_id'=>'required', 
+             'photo'=>'required', 
+             'name' => 'required|max:255', 
+             'type_user' => 'required', 
+             'email' => 'required|email|max:255|unique:users', 
+             'password' => 'required|min:6|confirmed', 
+         ]; 
+  $sms=[ 
+             'nip.required'=>'jangan kosong', 
+             'nip.unique'=>'jangan sama', 
+             'jabatan_id.required'=>'jangan kosong', 
+             'golongan_id.required'=>'jangan kosong', 
+             'photo.required'=>'jangan kosong', 
+             'name.required'=>'jangan kosong', 
+             'name.max'=>'max 255', 
+             'type_user.required'=>'jangan kosong', 
+             'email.required'=>'jangan kosong', 
+             'email.email'=>'harus berbentuk email', 
+             'email.max'=>'max 255', 
+             'email.unique'=>'sudah ada', 
+             'password.required'=>'jangan kosong', 
+             'password.min'=>'min 6', 
+             'password.confirmed'=>'belum kompirmasi', 
+         ]; 
+         $validasi=Validator::make(Input::all(),$roles,$sms); 
+         if($validasi->fails()){ 
+             return redirect()->back() 
+                 ->WithErrors($validasi) 
+                ->WithInput(); 
+         } 
+         $user=new User; 
+         $user->name = Request('name'); 
+         $user->type_user = Request('type_user'); 
+         $user->email = Request('email'); 
+         $user->password = bcrypt(Request('password')); 
+         $user->save(); 
+         $user = User::all(); 
+         foreach ($user as $data ) { 
+             $di=$data->id; 
+         } 
+  
+         $file= Input::file('photo'); 
+         $destination= public_path().'/assets/image/'; 
+         $filename=$file->getClientOriginalName(); 
+         $uploadsuccess=$file->move($destination,$filename); 
+         if(Input::hasFile('photo')){ 
+                 $pegawai = new Pegawai; 
+                 $pegawai->nip = Request('nip'); 
+                 $pegawai->user_id = $di; 
+                 $pegawai->jabatan_id = Request('jabatan_id'); 
+                 $pegawai->golongan_id = Request('golongan_id'); 
+                 $pegawai->photo=$filename; 
+                 $pegawai->save(); 
+                 return redirect('pegawai'); 
+         }           
+     } 
 
-
-          $user=user::create([
-         'name'=>$request->get('name'),
-         'email'=>$request->get('email'),
-         'permission'=>$request->get('permission'),
-         'password'=>bcrypt($request->get('password')),
-            ]);
-
-           $file = Input::file('foto');
-        $destinationPath = public_path().'/assets/image/';
-        $filename = $file->getClientOriginalName();
-        $uploadSuccess = $file->move($destinationPath, $filename);
-
-        if(Input::hasFile('foto')){
-            $pegawai= new pegawai;
-        $pegawai->nip=$request->get('nip');
-        $pegawai->id_jabatan =$request->get('id_jabatan');
-        $pegawai->id_golongan=$request->get('id_golongan');
-        $pegawai->id_user =$user->id;
-        $pegawai->foto = $filename;
-        $pegawai->save();
-
-        return redirect('/pegawai');
-    }
-}
     /**
      * Display the specified resource.
      *
@@ -111,11 +140,12 @@ class pegawaicontroller extends Controller
     public function edit($id)
     {
         //
+        $pegawai=Pegawai::find($id);; 
+         $golongan=Golongan::all(); 
+          $jabatan=Jabatan::all(); 
+          $user=User::all(); 
+         return view('pegawai.edit',compact('golongan','jabatan','user','pegawai')); 
 
-        $pegawai=pegawai::find($id);
-        $golongan=golongan::all();
-        $jabatan=jabatan::all();
-        return view('pegawai.edit',compact('pegawai','golongan','jabatan'));
     }
 
     /**
@@ -127,12 +157,76 @@ class pegawaicontroller extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-          $pegawaiupdate=Request::all();
-          $pegawai=pegawai::find($id);
-          $pegawai->update($pegawaiupdate);
-          return redirect('/pegawai');
-    }
+       $pegawai=Pegawai::where('id',$id)->first(); 
+         $user=User::where('id',$pegawai->user_id)->first(); 
+         if($pegawai['nip'] != Request('nip') || $user['email'] != Request('email')){ 
+             $roles=[ 
+             'nip'=>'required|unique:pegawais', 
+             'jabatan_id'=>'required', 
+             'golongan_id'=>'required', 
+             'photo'=>'required', 
+             'name' => 'required|max:255', 
+             'type_user' => 'required', 
+             'email' => 'required|email|max:255|unique:users', 
+         ]; 
+         } 
+         else{ 
+             $roles=[ 
+             'nip'=>'required', 
+             'jabatan_id'=>'required', 
+             'golongan_id'=>'required', 
+             'photo'=>'required', 
+             'name' => 'required|max:255', 
+             'type_user' => 'required', 
+             'email' => 'required|email|max:255', 
+         ]; 
+         } 
+         $sms=[ 
+             'nip.required'=>'jangan kosong', 
+             'nip.unique'=>'jangan sama', 
+             'jabatan_id.required'=>'jangan kosong', 
+             'golongan_id.required'=>'jangan kosong', 
+            'photo.required'=>'jangan kosong', 
+             'name.required'=>'jangan kosong', 
+             'name.max'=>'max 255', 
+             'type_user.required'=>'jangan kosong', 
+             'email.required'=>'jangan kosong', 
+             'email.email'=>'harus berbentuk email', 
+             'email.max'=>'max 255', 
+             'email.unique'=>'sudah ada', 
+              
+         ]; 
+         $validasi=Validator::make(Input::all(),$roles,$sms); 
+        if($validasi->fails()){ 
+             return redirect()->back() 
+                 ->WithErrors($validasi) 
+                 ->WithInput(); 
+         } 
+         $user=User::find($pegawai->user_id); 
+         $user->name = Request('name'); 
+         $user->type_user = Request('type_user'); 
+         $user->email = Request('email'); 
+         $user->update(); 
+          
+         $file= Input::file('photo'); 
+         $destination= '/assets/image/'; 
+         $filename=$file->getClientOriginalName(); 
+         $uploadsuccess=$file->move($destination,$filename); 
+         if($uploadsuccess){ 
+  
+          
+             $pegawai =Pegawai::find($id); 
+             $pegawai->nip = Request('nip'); 
+             $pegawai->user_id = $user->id; 
+             $pegawai->jabatan_id = Request('jabatan_id'); 
+             $pegawai->golongan_id = Request('golongan_id'); 
+             $pegawai->photo=$filename; 
+            $pegawai->update(); 
+        return redirect('pegawai'); 
+        } 
+ 
+     } 
+
 
     /**
      * Remove the specified resource from storage.
@@ -143,7 +237,11 @@ class pegawaicontroller extends Controller
     public function destroy($id)
     {
         //
-        pegawai::find($id)->delete();
-        return redirect('pegawai');
-    }
-}
+       $pegawai=Pegawai::find($id); 
+         $user=User::where('id',$pegawai->user_id)->delete(); 
+         $pegawai->delete(); 
+  
+        return redirect('pegawai'); 
+    } 
+} 
+

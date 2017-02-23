@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\penggajian;
+use Request; 
+use Validator; 
+use Input; 
+use App\Penggajian; 
+use App\Tunjangan_pegawai; 
+use App\Pegawai; 
+use App\Lembur_pegawai; 
+
 
 class penggajiancontroller extends Controller
 {
@@ -15,22 +21,36 @@ class penggajiancontroller extends Controller
     public function index()
     {
         //
-         $penggajian=penggajian::all();
-        return view('penggajian.index',compact('penggajian'));
+           $penggajian=Penggajian::all(); 
+        $pegawai=Pegawai::all(); 
+         $lemburp=Lembur_pegawai::all(); 
+         $tunjangan=Tunjangan_pegawai::all(); 
+        return view('penggajian.index',compact('penggajian','pegawai','lemburp','tunjangan')); 
+
 
     }
+     public function search(Request $request) 
+   { 
+        $query = Request::get('q'); 
+        $pegawai = Pegawai::where('id', 'LIKE', '%' . $query . '%')->paginate(10); 
+        $pegawaii = Pegawai::all(); 
+        $penggajian=Penggajian::all(); 
+         $lemburp=Lembur_pegawai::all(); 
+        $tunjangan=Tunjangan_pegawai::all(); 
+        return view('penggajian.result', compact('penggajian','pegawai','pegawaii','lemburp','tunjangan', 'query')); 
+    } 
+    
+    /** 
+     * Show the form for creating a new resource. 
+      * 
+     * @return \Illuminate\Http\Response 
+     */ 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
-        $penggajian=penggajian::all();
-        $tunjangan_pegawai=tunjangan_pegawai::all();
-        return view('tunjangan_pegawai.create',compact('tunjangan_pegawai','penggajian'));
+        return view('penggajian.create');
     }
 
     /**
@@ -42,9 +62,10 @@ class penggajiancontroller extends Controller
     public function store(Request $request)
     {
         //
-        $penggajian=Request::all();
-        penggajian::create($penggajian);
-        return redirect('penggajian');
+        $penggajian=Request::all(); 
+         Penggajian::create($penggajian); 
+         return redirect('penggajian'); 
+
     }
 
     /**

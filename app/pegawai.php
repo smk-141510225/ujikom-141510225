@@ -6,34 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class pegawai extends Model
 {
-    //
-    protected $table='pegawais';
-    protected $fillable=['nip','id_user','id_jabatan','id_golongan','foto'];
-    protected $visible=['nip','id_user','id_jabatan','id_golongan','foto'];
+     protected $table='pegawais'; 
+     protected $fillable=['id','nip','user_id','golongan_id','jabatan_id','photo']; 
+      public function golongan(){ 
+      return $this->belongsTo('App\Golongan','golongan_id'); 
+     } 
+     public function jabatan(){ 
+      return $this->belongsTo('App\Jabatan','jabatan_id'); 
+     } 
+     public function user(){ 
+         return $this->belongsTo('App\User','user_id'); 
+     } 
+     public function lembur_pegawai(){ 
+         return $this->hasMany('App\Lembur_pegawai','pegawai_id'); 
+     } 
+     public function tunjangan_pegawai(){ 
+         return $this->hasMany('App\Tunjangan_pegawai','pegawai_id'); 
+     } 
+ } 
 
-     public function jabatan()
-    {
-        return $this->belongsTo('App\jabatan','id_jabatan');
-    }
-
-      public function golongan()
-    {
-        return $this->belongsTo('App\golongan','id_golongan');
-    }
-
-     public function lembur_pegawai()
-    {
-    	return $this->hasMany('App\lembur_pegawai','id_pegawai');
-    }
-
-
-     public function User()
-    {
-        return $this->belongsTo('App\User','id_user');
-    }
-
-      public function tunjangan_pegawai()
-    {
-        return $this->hasMany('App\tunjangan_pegawai','id_pegawai');
-    }
-}

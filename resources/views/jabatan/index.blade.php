@@ -6,6 +6,12 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
                 <div class="panel-heading"><center>Index Jabatan</center></div>
+                <div class="form-group"><center>
+                <br>
+    <form action="{{url('jabatan')}}/?nama_jabatan=nama_jabatan">
+        <input type="text" name="nama_jabatan" placeholder="Search"></form>
+    </center></div>
+
 
                 <div class="panel-body">
                     <table class="table" border="1">

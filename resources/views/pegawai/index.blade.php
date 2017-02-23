@@ -1,61 +1,184 @@
+@extends('layouts.app') 
+ @section('pegawai') 
+     active 
+ @endsection 
+ @section('judul') 
+   Akun     
+ @endsection 
+ @section('content') 
+               <div class="col-md-6 "> 
+                  <div class="panel panel-primary"> 
+                      <div class="panel-heading">Data Pegawai</div> 
+                      <div class="panel-body"> 
+                        <table border="2" class="table table-success table-border table-hover"> 
+                  <thead > 
+                    <tr> 
+                      <th>No</th> 
+                      <th>NIP</th> 
+                      <th>Nama Golongan</th> 
+                      <th>Nama Jabatan</th> 
+                      <th>Photo</th> 
+                    </tr> 
+                  </thead> 
+                  @php $no=1; @endphp 
+                  <tbody> 
+                    @foreach($pegawai as $data) 
+                    <tr> 
+                      <td>{{$no++}}</td> 
+                      <td>{{$data->nip}}</td> 
+                      <td>{{$data->golongan->nama_golongan}}</td> 
+                      <td>{{$data->jabatan->nama_j}}</td> 
+                      <td> 
+                         
+                      <div class="dropdown"> 
+                                  <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" role="button" aria-expanded="false">Lihat Photo <span class="caret"></span> 
+                                  </a> 
+                       <ul class="dropdown-menu" role="menu"> 
+                         <img src="assets/image/{{$data->photo}}" width="200" height="200"> 
+                                  </ul> 
+                              </div> 
+ 
+ 
+                      </td> 
+                       
+                    </tr> 
+                    @endforeach 
+                 </tbody> 
+                </table> 
+                     </div> 
+                 </div> 
+             </div> 
+             <div class="col-md-6 col-md-offset-0"> 
+                 <div class="panel panel-primary"> 
+                     <div class="panel-heading">Data User</div> 
+                     <div class="panel-body"> 
+                       <table border="2" class="table table-success table-border table-hover"> 
+                 <thead > 
+                   <tr> 
+                      <th>Name</th> 
+                     <th>Type User</th> 
+                      <th>Email</th> 
+                     <th colspan="2"><center>Action</center></th> 
+                   </tr> 
+                  </thead> 
+                 @php $no=1; @endphp 
+                  <tbody> 
+                    @foreach($pegawai as $data) 
+                    <tr> 
+                      <td>{{$data->user->name}}</td> 
+                     <td>{{$data->user->type_user}}</td> 
+                      <td>{{$data->user->email}}</td> 
+                       
+                      <td> 
+                        <a href="{{route('pegawai.edit',$data->id)}}" class='btn btn-warning'> Edit </a> 
+                      </td> 
+                      <td> 
+                        {!! Form::open(['method'=>'DELETE','route'=>['pegawai.destroy',$data->id]]) !!} 
+                       {!! Form::submit('Delete',['class'=>'btn btn-danger']) !!} 
+                        {!! Form::close() !!} 
+                     </td> 
+                    </tr> 
+                    @endforeach 
+                  </tbody> 
+                </table> 
+                      </div> 
+                  </div> 
+              </div> 
+         <a  href="{{url('pegawai/create')}}" class="btn btn-primary form-control">Tambah</a> 
+   
+  <center>{{$pegawai->links()}}</center> 
+ 
+ 
+@endsection 
+@extends('layouts.app') 
+ @section('pegawai') 
+     active 
+ @endsection 
+ @section('judul') 
+  Akun     
+@endsection 
+@section('content') 
+              <div class="col-md-6 "> 
+                  <div class="panel panel-primary"> 
+                     <div class="panel-heading">Data Pegawai</div> 
+                      <div class="panel-body"> 
+                       <table border="2" class="table table-success table-border table-hover"> 
+                  <thead > 
+                    <tr> 
+                      <th>No</th> 
+                      <th>NIP</th> 
+                      <th>Nama Golongan</th> 
+                      <th>Nama Jabatan</th> 
+                     <th>Photo</th> 
+                   </tr> 
+                 </thead> 
+                 @php $no=1; @endphp 
+                  <tbody> 
+                    @foreach($pegawai as $data) 
+                    <tr> 
+                      <td>{{$no++}}</td> 
+                      <td>{{$data->nip}}</td> 
+                      <td>{{$data->golongan->nama_g}}</td> 
+                      <td>{{$data->jabatan->nama_j}}</td> 
+                      <td> 
+                        
+                     <div class="dropdown"> 
+                                  <a href="#" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" role="button" aria-expanded="false">Lihat Photo <span class="caret"></span> 
+                                 </a> 
+                        <ul class="dropdown-menu" role="menu"> 
+                          <img src="assets/image/{{$data->photo}}" width="200" height="200"> 
+                                 </ul> 
+                             </div> 
+
+ 
+                     </td> 
+                       
+                    </tr> 
+                    @endforeach 
+                 </tbody> 
+               </table> 
+                     </div> 
+                 </div> 
+             </div> 
+             <div class="col-md-6 col-md-offset-0"> 
+                  <div class="panel panel-primary"> 
+                     <div class="panel-heading">Data User</div> 
+                     <div class="panel-body"> 
+                        <table border="2" class="table table-success table-border table-hover"> 
+                 <thead > 
+                   <tr> 
+                      <th>Name</th> 
+                     <th>Type User</th> 
+                      <th>Email</th> 
+                     <th colspan="2"><center>Action</center></th> 
+                   </tr> 
+                  </thead> 
+                  @php $no=1; @endphp 
+                 <tbody> 
+                   @foreach($pegawai as $data) 
+                   <tr> 
+                     <td>{{$data->user->name}}</td> 
+                     <td>{{$data->user->type_user}}</td> 
+                     <td>{{$data->user->email}}</td> 
+                      
+                     <td> 
+                        <a href="{{route('pegawai.edit',$data->id)}}" class='btn btn-warning'> Edit </a> 
+                      </td> 
+                      <td> 
+                        {!! Form::open(['method'=>'DELETE','route'=>['pegawai.destroy',$data->id]]) !!} 
+                       {!! Form::submit('Delete',['class'=>'btn btn-danger']) !!} 
+                        {!! Form::close() !!} 
+                     </td> 
+                   </tr> 
+                   @endforeach 
+                 </tbody> 
+               </table> 
+                     </div> 
+                  </div> 
+              </div> 
+          <a  href="{{url('pegawai/create')}}" class="btn btn-primary form-control">Tambah</a> 
   
+ <center>{{$pegawai->links()}}</center> 
 
-                @extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 col-md-offset-">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><center>Index Pegawai</center></div>
-
-                <div class="panel-body">
-                     <table class="table" border='2'>
-                    <thead>
-                <tr>
-                    <th><center>No.</center></th>
-                    <th><center>Nip</center></th>
-                    <th><center>Pengguna</center></th>
-                    <th><center>Email</center></th>
-                    <th><center>Golongan</center></th>
-                    <th><center>Jabatan</center></th>
-                    <th><center>Foto</center></th>
-                    <th colspan="2"><center>Opsi</center></th>
-
-                </tr>
-                </thead>
-                @php
-                $no=1;
-                @endphp
-                @foreach($pegawai as $data)
-                    <tbody>
-                        <tr>
-                            <td><center>{{$no++}}</center></td>
-                            <td><center>{{$data->nip}}</center></td>                                   
-                            <td><center>{{$data->User->name}}</center></td>
-                            <td><center>{{$data->User->email}}</center></td>
-                            <td><center>{{$data->golongan->nama_golongan}}</center></td>
-                            <td><center>{{$data->jabatan->nama_jabatan}}</center></td>
-                            <td><center><img src="/assets/image/{{ $data->foto }}" width="50px" height="50px"></center></td>
-                            <td><center>
-                                <a href="{{route('pegawai.edit',$data->id)}}" class="btn btn-primary">Ubah</a>
-                            </center></td>
-                              <td >
-                                  <center><a data-toggle="modal" href="#delete{{ $data->id }}" class="btn btn-danger" title="Delete" data-toggle="tooltip">Delete</a></center>
-                                  @include('modals.delete', [
-                                    'url' => route('pegawai.destroy', $data->id),
-                                    'model' => $data
-                                  ])
-                            </td>
-                        </tr>
-
-                    </tbody>
-                    @endforeach
-
-                </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+ 
+ @endsection 

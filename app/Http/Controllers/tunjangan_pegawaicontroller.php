@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\tunjangan_pegawai;
 use App\pegawai;
 use App\tunjangan;
-
 use Request;
 
 class tunjangan_pegawaicontroller extends Controller
@@ -14,14 +14,11 @@ class tunjangan_pegawaicontroller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function __construct(){
-       $this->middleware('auth');
-   }
     public function index()
     {
-        // 
-        $tunjangan_pegawai=tunjangan_pegawai::all();
-        return view ('tunjangan_pegawai.index',compact('tunjangan_pegawai'));
+        //
+        $tunjanganpegawai = tunjangan_pegawai::with('tunjangan','pegawai')->get();
+        return view ('tunjanganpegawai.index', compact('tunjanganpegawai'));
     }
 
     /**
@@ -32,9 +29,9 @@ class tunjangan_pegawaicontroller extends Controller
     public function create()
     {
         //
-        $tunjangan=tunjangan::all();
-        $pegawai=pegawai::all();
-        return view ('tunjangan_pegawai.create',compact('tunjangan','pegawai'));
+        $tunjangan = tunjangan::all();
+         $pegawai = pegawai::all();
+         return view ('tunjanganpegawai.create', compact('pegawai','tunjangan')); 
     }
 
     /**
@@ -46,12 +43,9 @@ class tunjangan_pegawaicontroller extends Controller
     public function store(Request $request)
     {
         //
-        $tunjangan_pegawai= new tunjangan_pegawai;
-        $tunjangan_pegawai->kode_tunjangan_id=$request->get('kode_tunjangan_id');
-        $tunjangan_pegawai->id_pegawai=$request->get('id_pegawai');
-        $tunjangan_pegawai->save();
-        return redirect('/tunjangan_pegawai');
-
+        $tunjanganpegawai=Request::all();
+        tunjangan_pegawai::create($tunjanganpegawai);
+        return redirect('tunjanganpegawai');
     }
 
     /**
@@ -74,10 +68,6 @@ class tunjangan_pegawaicontroller extends Controller
     public function edit($id)
     {
         //
-        $tunjangan_pegawai=tunjangan_pegawai::find($id);
-        $pegawai=pegawai::all();
-        $tunjangan=tunjangan::all();
-        return view('tunjangan_pegawai.edit',compact('tunjangan_pegawai','tunjangan','pegawai'));
     }
 
     /**
@@ -101,7 +91,5 @@ class tunjangan_pegawaicontroller extends Controller
     public function destroy($id)
     {
         //
-        tunjangan_pegawai::find($id)->delete();
-        return redirect('tunjangan_pegawai');
     }
 }

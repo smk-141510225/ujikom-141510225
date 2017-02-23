@@ -21,7 +21,16 @@ class golongancontroller extends Controller
     {
         //
         $golongan=golongan::all();
-        return view ('golongan.index',compact('golongan'));
+        $golongan = golongan::where('nama_golongan', request('nama_golongan'))->paginate(0);
+        if(request()->has('nama_golongan'))
+        {
+            $golongan=golongan::where('nama_golongan', request('nama_golongan'))->paginate(0);
+        }
+        else
+        {
+            $golongan=golongan::paginate();
+        }
+        return view ('golongan.index', compact('golongan'));
     }
 
     /**
@@ -33,7 +42,6 @@ class golongancontroller extends Controller
     {
 
         //
-        $golongan=golongan::all();
         return view ('golongan.create',compact('golongan'));
     }
 
