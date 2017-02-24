@@ -14,15 +14,16 @@ class CreatePegawaisTable extends Migration
     public function up()
     {
         Schema::create('pegawais', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('nip')->unique();
-            $table->unsignedInteger('id_user')->nullable();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('Cascade')->onUpdate('Cascade');
-            $table->unsignedInteger('id_jabatan')->nullable();
-            $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('Cascade')->onUpdate('Cascade');
-            $table->unsignedInteger('id_golongan')->nullable();
-            $table->foreign('id_golongan')->references('id')->on('golongans')->onDelete('Cascade')->onUpdate('Cascade');
-            $table->string('foto');
+            $table->increments('id'); 
+             $table->string('nip')->unique(); 
+             $table->unsignedInteger('id_user')->nullable(); 
+             $table->foreign('id_user')->references('id')->on('users')->onDelete('Cascade')->onUpdate('Cascade'); 
+             $table->unsignedInteger('id_jabatan')->nullable(); 
+             $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('Cascade')->onUpdate('Cascade'); 
+             $table->unsignedInteger('id_golongan')->nullable(); 
+             $table->foreign('id_golongan')->references('id')->on('golongans')->onDelete('Cascade')->onUpdate('Cascade'); 
+             $table->string('foto'); 
+
             $table->timestamps();
         });
     }

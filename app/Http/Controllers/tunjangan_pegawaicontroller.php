@@ -17,8 +17,8 @@ class tunjangan_pegawaicontroller extends Controller
     public function index()
     {
         //
-        $tunjanganpegawai = tunjangan_pegawai::with('tunjangan','pegawai')->get();
-        return view ('tunjanganpegawai.index', compact('tunjanganpegawai'));
+        $tunjangan_pegawai = tunjangan_pegawai::with('tunjangan','pegawai')->get();
+        return view ('tunjangan_pegawai.index', compact('tunjangan_pegawai'));
     }
 
     /**
@@ -31,7 +31,7 @@ class tunjangan_pegawaicontroller extends Controller
         //
         $tunjangan = tunjangan::all();
          $pegawai = pegawai::all();
-         return view ('tunjanganpegawai.create', compact('pegawai','tunjangan')); 
+         return view ('tunjangan_pegawai.create', compact('pegawai','tunjangan')); 
     }
 
     /**
@@ -43,8 +43,8 @@ class tunjangan_pegawaicontroller extends Controller
     public function store(Request $request)
     {
         //
-        $tunjanganpegawai=Request::all();
-        tunjangan_pegawai::create($tunjanganpegawai);
+        $tunjangan_pegawai=Request::all();
+        tunjangan_pegawai::create($tunjangan_pegawai);
         return redirect('tunjanganpegawai');
     }
 

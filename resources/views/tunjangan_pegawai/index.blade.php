@@ -28,7 +28,7 @@
                             <td >
                                   <center><a data-toggle="modal" href="#delete{{ $data->id }}" class="btn btn-danger" title="Delete" data-toggle="tooltip">Delete</a></center>
                                   @include('modals.delete', [
-                                    'url' => route('tunjangan_pegawai.destroy', $data->id),
+                                    'url' => route('tunjanganpegawai.destroy', $data->id),
                                     'model' => $data
                                   ])
                             </td>
