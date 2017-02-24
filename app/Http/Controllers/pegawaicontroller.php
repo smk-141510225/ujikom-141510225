@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 use Request; 
  use Validator; 
  use Input; 
- use App\Golongan; 
- use App\Jabatan; 
+ use App\golongan; 
+ use App\jabatan; 
  use App\Pegawai; 
  use App\User; 
 
@@ -42,8 +42,8 @@ class pegawaicontroller extends Controller
     public function create()
     {
         //
-         $golongan=Golongan::all(); 
-          $jabatan=Jabatan::all(); 
+         $golongan=golongan::all(); 
+          $jabatan=jabatan::all(); 
           $user=User::all(); 
          return view('pegawai.create',compact('golongan','jabatan','user')); 
 
@@ -61,23 +61,24 @@ class pegawaicontroller extends Controller
 
           $roles=[ 
              'nip'=>'required|unique:pegawais', 
-             'jabatan_id'=>'required', 
-             'golongan_id'=>'required', 
-             'photo'=>'required', 
+             'id_jabatan'=>'required', 
+             'id_golongan'=>'required', 
+             'foto'=>'required', 
              'name' => 'required|max:255', 
-             'type_user' => 'required', 
+             'type_users' => 'required', 
              'email' => 'required|email|max:255|unique:users', 
              'password' => 'required|min:6|confirmed', 
+
          ]; 
   $sms=[ 
              'nip.required'=>'jangan kosong', 
              'nip.unique'=>'jangan sama', 
-             'jabatan_id.required'=>'jangan kosong', 
-             'golongan_id.required'=>'jangan kosong', 
-             'photo.required'=>'jangan kosong', 
+             'id_jabatan.required'=>'jangan kosong', 
+             'id.golongan.required'=>'jangan kosong', 
+             'foto.required'=>'jangan kosong', 
              'name.required'=>'jangan kosong', 
              'name.max'=>'max 255', 
-             'type_user.required'=>'jangan kosong', 
+             'type_users.required'=>'jangan kosong', 
              'email.required'=>'jangan kosong', 
              'email.email'=>'harus berbentuk email', 
              'email.max'=>'max 255', 
@@ -94,7 +95,7 @@ class pegawaicontroller extends Controller
          } 
          $user=new User; 
          $user->name = Request('name'); 
-         $user->type_user = Request('type_user'); 
+         $user->type_users = Request('type_users'); 
          $user->email = Request('email'); 
          $user->password = bcrypt(Request('password')); 
          $user->save(); 
@@ -103,17 +104,17 @@ class pegawaicontroller extends Controller
              $di=$data->id; 
          } 
   
-         $file= Input::file('photo'); 
+         $file= Input::file('foto'); 
          $destination= public_path().'/assets/image/'; 
          $filename=$file->getClientOriginalName(); 
          $uploadsuccess=$file->move($destination,$filename); 
-         if(Input::hasFile('photo')){ 
+         if(Input::hasFile('foto')){ 
                  $pegawai = new Pegawai; 
                  $pegawai->nip = Request('nip'); 
-                 $pegawai->user_id = $di; 
-                 $pegawai->jabatan_id = Request('jabatan_id'); 
-                 $pegawai->golongan_id = Request('golongan_id'); 
-                 $pegawai->photo=$filename; 
+                 $pegawai->id_user = $di; 
+                 $pegawai->id_jabatan = Request('id_jabatan'); 
+                 $pegawai->id_golongan = Request('id_golongan'); 
+                 $pegawai->foto=$filename; 
                  $pegawai->save(); 
                  return redirect('pegawai'); 
          }           
@@ -141,8 +142,8 @@ class pegawaicontroller extends Controller
     {
         //
         $pegawai=Pegawai::find($id);; 
-         $golongan=Golongan::all(); 
-          $jabatan=Jabatan::all(); 
+         $golongan=golongan::all(); 
+          $jabatan=jabatan::all(); 
           $user=User::all(); 
          return view('pegawai.edit',compact('golongan','jabatan','user','pegawai')); 
 
@@ -162,9 +163,9 @@ class pegawaicontroller extends Controller
          if($pegawai['nip'] != Request('nip') || $user['email'] != Request('email')){ 
              $roles=[ 
              'nip'=>'required|unique:pegawais', 
-             'jabatan_id'=>'required', 
-             'golongan_id'=>'required', 
-             'photo'=>'required', 
+             'id_jabatan'=>'required', 
+             'id_golongan'=>'required', 
+             'Foto'=>'required', 
              'name' => 'required|max:255', 
              'type_user' => 'required', 
              'email' => 'required|email|max:255|unique:users', 
@@ -173,23 +174,23 @@ class pegawaicontroller extends Controller
          else{ 
              $roles=[ 
              'nip'=>'required', 
-             'jabatan_id'=>'required', 
-             'golongan_id'=>'required', 
-             'photo'=>'required', 
+             'id_jabatan'=>'required', 
+             'id_golongan'=>'required', 
+             'Foto'=>'required', 
              'name' => 'required|max:255', 
-             'type_user' => 'required', 
+             'type_users' => 'required', 
              'email' => 'required|email|max:255', 
          ]; 
          } 
          $sms=[ 
              'nip.required'=>'jangan kosong', 
              'nip.unique'=>'jangan sama', 
-             'jabatan_id.required'=>'jangan kosong', 
-             'golongan_id.required'=>'jangan kosong', 
+             'id_jabatan.required'=>'jangan kosong', 
+             'id_golongan.required'=>'jangan kosong', 
             'photo.required'=>'jangan kosong', 
              'name.required'=>'jangan kosong', 
              'name.max'=>'max 255', 
-             'type_user.required'=>'jangan kosong', 
+             'type_users.required'=>'jangan kosong', 
              'email.required'=>'jangan kosong', 
              'email.email'=>'harus berbentuk email', 
              'email.max'=>'max 255', 
@@ -204,11 +205,11 @@ class pegawaicontroller extends Controller
          } 
          $user=User::find($pegawai->user_id); 
          $user->name = Request('name'); 
-         $user->type_user = Request('type_user'); 
+         $user->type_users = Request('type_users'); 
          $user->email = Request('email'); 
          $user->update(); 
           
-         $file= Input::file('photo'); 
+         $file= Input::file('Foto'); 
          $destination= '/assets/image/'; 
          $filename=$file->getClientOriginalName(); 
          $uploadsuccess=$file->move($destination,$filename); 
@@ -218,9 +219,9 @@ class pegawaicontroller extends Controller
              $pegawai =Pegawai::find($id); 
              $pegawai->nip = Request('nip'); 
              $pegawai->user_id = $user->id; 
-             $pegawai->jabatan_id = Request('jabatan_id'); 
-             $pegawai->golongan_id = Request('golongan_id'); 
-             $pegawai->photo=$filename; 
+             $pegawai->id_jabatan = Request('id_jabatan'); 
+             $pegawai->id_golongan = Request('id_golongan'); 
+             $pegawai->foto=$filename; 
             $pegawai->update(); 
         return redirect('pegawai'); 
         } 

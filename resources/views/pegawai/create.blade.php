@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container"> 
-   <div class="row"> 
-       <div class="col-md-4">           
-       <div class="panel panel-primary"> 
-               <div class="panel-heading">Tambah User</div> 
-                 <div class="panel-body"> 
+ <div class="container"> 
+             <div class="row"> 
+                 <div class="col-md-6 col-md-offset-3"> 
+                 <div class="panel  panel-default panel-primary">
+                     <div class="panel-heading">Tambah Users</div>
+                     <div class="panel-body"> 
                      <form class="form-horizontal" role="form" method="POST" action="{{ url('/pegawai') }}" enctype='multipart/Form-data'> 
                         {{ csrf_field() }} 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}"> 
@@ -18,21 +18,21 @@
                                         <strong>{{ $errors->first('name') }}</strong>    </span>                             @endif                           
                                         </div>    
                                         </div> 
-                        <div class="form-group{{ $errors->has('type_user') ? ' has-error' : '' }}"> 
-                            <label for="type_user" class="col-md-4 control-label">type_user</label> 
+                        <div class="form-group{{ $errors->has('type_users') ? ' has-error' : '' }}"> 
+                            <label for="type_users" class="col-md-4 control-label">type_users</label> 
 
  
                             <div class="col-md-6"> 
-                                <select id="type_user" class="form-control" name="type_user" value="{{ old('type_user') }}"  autofocus> 
+                                <select id="type_users" class="form-control" name="type_users" value="{{ old('type_users') }}"  autofocus> 
                                     <option value="">Pilih</option> 
                                     <option value="Admin">Admin</option> 
                                     <option value="HRD">HRD</option> 
                                     <option value="Bagian Keuangan">Bagian Keuangan</option> 
                                     <option value="Karyawan">Karyawan</option> 
                                 </select> 
-                                 @if ($errors->has('type_user')) 
+                                 @if ($errors->has('type_users')) 
                                     <span class="help-block"> 
-                                         <strong>{{ $errors->first('type_user') }}</strong> 
+                                         <strong>{{ $errors->first('type_users') }}</strong> 
                                     </span> 
                                 @endif 
                              </div> 
@@ -82,12 +82,13 @@
                  </div> 
              </div> 
          </div> 
-         <div class="col-md-5"> 
-             <div class="panel panel-primary"> 
-                 <div class="panel-heading"> 
-                     <div class="panel-title">Tambah Pegawai</div> 
-                 </div> 
-                 <div class="panel-body"> 
+         <div class="container"> 
+             <div class="row"> 
+                 <div class="col-md-6 col-md-offset-3"> 
+                 <div class="panel panel-default panel-primary">
+                     <div class="panel-heading">Tambah Pegawai</div>
+                     <div class="panel-body">  
+                 
                      <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}"> 
                              <label for="nip" class="col-md-4 control-label">NIP</label> 
  
@@ -114,14 +115,14 @@
                                  <select name="golongan_id" class="form-control"> 
                                      <option value="">pilih</option> 
                                      @foreach($golongan as $data) 
-                                     <option value="{{$data->id}}">{{$data->nama_g}}</option> 
+                                     <option value="{{$data->id}}">{{$data->nama_golongan}}</option> 
                                      @endforeach 
                                  </select> 
  
  
                                  @if ($errors->has('golongan_id')) 
                                      <span class="help-block"> 
-                                         <strong>{{ $errors->first('golongan_id') }}</strong> 
+                                          <strong>{{ $errors->first('golongan_id') }}</strong> 
                                      </span> 
                                  @endif 
                              </div> 
@@ -136,7 +137,7 @@
                                  <select name="jabatan_id" class="form-control"> 
                                      <option value="">pilih</option> 
                                     @foreach($jabatan as $data) 
-                                     <option value="{{$data->id}}">{{$data->nama_j}}</option> 
+                                     <option value="{{$data->id}}">{{$data->nama_jabatan}}</option> 
                                      @endforeach 
                                  </select> 
  
@@ -169,6 +170,7 @@
  
                          <div class="form-group"> 
                              <div class="col-md-6 col-md-offset-4"> 
+                             <br>
                                  <button type="submit" class="btn btn-primary form-control"> 
                                     Simpan 
                                  </button> 
